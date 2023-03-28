@@ -1,4 +1,4 @@
-import Notiflix from 'Notiflix';
+// import Notiflix from 'Notiflix';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -38,11 +38,11 @@ export class App extends Component {
                   ? images.hits
                   : [...prevImages.images, ...images.hits],
             }));
-          } else {
-            Notiflix.Notify.failure(
-              'Sorry, there are no images matching your search query. Please try again.'
-            );
-          }
+          // } else {
+          //   Notiflix.Notify.failure(
+          //     'Sorry, there are no images matching your search query. Please try again.'
+          //   );
+          // }
         })
         .catch(error => this.setState({ error: error }))
         .finally(() =>
