@@ -1,36 +1,35 @@
-import { Component } from 'react';
+import { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
-export class Modal extends Component {
-  state = {};
+export const Modal = ({ closeModal, largeImageURL, closeESCModal }) => {
+  const handleKeyDown = useCallback(
+    ({ code }) => {
+      if (code === 'Escape') {
+        closeESCModal();
+      }
+    },
+    [closeESCModal]
+  );
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  handleKeyDown = ({ code }) => {
-    if (code === 'Escape') {
-      this.props.closeESCModal();
-    }
-  };
-
-  render() {
-    const { closeModal, largeImageURL } = this.props;
-    return (
-      <div className={css.overlay} onClick={closeModal}>
-        <div className={css.modal}>
-          <img className={css.image}src={largeImageURL} alt="" />
-        </div>
+  return (
+    <div className={css.overlay} onClick={closeModal}>
+      <div className={css.modal}>
+        <img className={css.image} src={largeImageURL} alt="" />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   largeImageURL: PropTypes.string.isRequired,
+  closeESCModal:PropTypes.func.isRequired,
 };
